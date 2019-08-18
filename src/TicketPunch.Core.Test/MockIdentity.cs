@@ -7,9 +7,6 @@ namespace TicketPunch.Core.Test
 
         public string Name => "TEST-NAME";
 
-        public bool Verify()
-        {
-            return true;
-        }
+        public bool Verify() => Name == "TEST-NAME";
     }
 }

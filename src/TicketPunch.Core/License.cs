@@ -1,20 +1,28 @@
 using System;
 using System.Text;
 using Newtonsoft.Json;
+using TicketPunch.Core.Crypto;
 
 namespace TicketPunch.Core
 {
-    public class License<TIdentity> where TIdentity : IIdentity
+    public sealed class License<TIdentity> where TIdentity : IIdentity
     {
-        public Guid Id { get; internal set; }
-        public DateTime CreationDate { get; internal set; }
-        public DateTime? ExpireDate { get; internal set; }
-        public TIdentity Identity { get; internal set; }
+        public Guid Id { get; set; }
+        public DateTime CreationDate { get; set; }
+        public DateTime? ExpireDate { get; set; }
+        public TIdentity Identity { get; set; }
 
-        public string Finalize(ISigner signer)
+        internal License() { }
+
+        public string ToJSON()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
+
+        public string Sign(ISigner signer)
         {
             var json = ToJSON();
-            var data = Base64Encode(json);
+            var data = Utilites.Base64EncodeString(json);
 
             var signature = signer.Sign(data);
 
@@ -22,30 +30,40 @@ namespace TicketPunch.Core
             sb.Append(data);
             sb.Append('.');
             sb.Append(System.Convert.ToBase64String(signature));
-
             return sb.ToString();
         }
 
-        public string ToJSON() {
-            return JsonConvert.SerializeObject(this);
-        }
-
-        private static string Base64Encode(string plainText) {
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
-            return System.Convert.ToBase64String(plainTextBytes);
-        }
-
-        internal bool Verify()
+        public static License<TIdentity> Load(ISigner verifier, string licenseString)
         {
-            if (ExpireDate != null)
+            var sections = licenseString.Split('.');
+            if (sections.Length != 2) { throw new InvalidLicenseException(); }
+
+            var rawLicense = sections[0];
+            var signature = System.Convert.FromBase64String(sections[1]);
+
+            if (!verifier.Verify(rawLicense, signature))
             {
-                if(DateTime.Now >= ExpireDate)
-                {
-                    return false;
-                }
+                throw new InvalidLicenseException();
             }
 
-            return Identity.Verify();
+            return FromJSON(Utilites.Base64DecodeString(rawLicense));
         }
+
+        public static License<TIdentity> FromJSON(string json)
+        {
+            var license = JsonConvert.DeserializeObject<License<TIdentity>>(json);
+
+            // Verify required properties are not null
+            if (license.Id == null) { throw new InvalidLicenseException(); }
+            if (license.CreationDate == null) { throw new InvalidLicenseException(); }
+
+            return license;
+        }
+
+        public static License<TIdentity> New()
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }
