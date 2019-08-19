@@ -3,10 +3,13 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
     <PackageId>TicketPunch.Core</PackageId>
-    <Version>0.1.0</Version>
     <Author>Carson Page</Author>
     <Company>Byte Realm Solutions LLC</Company>
     <PackageLicenseExpression>(Apache-2.0 OR MIT)</PackageLicenseExpression>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Version Condition="'$(CI_BUILD)' == 'y'">$(MAJOR_VERSION).$(MINOR_VERSION).$(PATCH_VERSION).$(BUILD_VERSION)</Version>
   </PropertyGroup>
 
   <ItemGroup>

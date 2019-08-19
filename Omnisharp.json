@@ -1,0 +1,8 @@
+{
+    "fileOptions": {
+        "userExcludeSearchPatterns": [
+            "**/obj/**/*",
+            "**/bin/**/*"
+        ]
+    }
+}
