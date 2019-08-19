@@ -8,22 +8,30 @@ variables:
 
 steps:
   - task: DotNetCoreCLI@2
+    name: 'Build'
     inputs:
       projects: '**/*.csproj'
       command: build
       arguments: '-c $(buildConfiguration)'
   - task: DotNetCoreCLI@2
+    name: 'Test'
     inputs:
       command: test
       projects: '**/*Test/*.csproj'
       arguments: '--configuration $(buildConfiguration)'
   - task: DotNetCoreCLI@2
+    name: 'Package'
     inputs:
       command: 'pack'
       packagesToPack: '**/*.csproj'
-      versioningScheme: 'byBuildNumber'
+      versioningScheme: 'byPrereleaseNumber'
+      majorVersion: '0'
+      minorVersion: '1'
+      patchVersion: '0'
   - task: DotNetCoreCLI@2
+    name: 'Push to Nuget'
     inputs:
       command: 'push'
       packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
       nuGetFeedType: 'external'
+      publishFeedCredentials: 'Public Nuget'
