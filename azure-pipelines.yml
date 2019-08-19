@@ -29,7 +29,7 @@ steps:
       minorVersion: '1'
       patchVersion: '0'
   - task: DotNetCoreCLI@2
-    name: 'Push to Nuget'
+    name: 'push_to_nuget'
     inputs:
       command: 'push'
       packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
