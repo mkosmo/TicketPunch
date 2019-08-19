@@ -60,6 +60,8 @@ namespace TicketPunch.Core
             return license;
         }
 
+        
+
         public static License<TIdentity> New()
         {
             throw new NotImplementedException();

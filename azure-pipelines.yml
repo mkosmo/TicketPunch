@@ -5,6 +5,11 @@ pool:
 
 variables:
   buildConfiguration: 'release'
+  MAJOR_VERSION: '0'
+  MINOR_VERSION: '1'
+  PATCH_VERSION: '0'
+  BUILD_VERSION: $[counter(format('{0:yyyyMMdd}', pipeline.startTime), 100)]
+  CI_BUILD: 'y'
 
 steps:
   - task: DotNetCoreCLI@2
@@ -24,14 +29,10 @@ steps:
     inputs:
       command: 'pack'
       packagesToPack: '**/*.csproj'
-      versioningScheme: 'byPrereleaseNumber'
-      majorVersion: '0'
-      minorVersion: '1'
-      patchVersion: '0'
-  - task: DotNetCoreCLI@2
-    name: 'push_to_nuget'
+      versioningScheme: off
+  - task: NuGetCommand@2
     inputs:
       command: 'push'
-      packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
-      nuGetFeedType: 'external'
-      publishFeedCredentials: 'Public Nuget'
+      packagesToPush: '$(Build.ArtifactStagingDirectory)/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+      nuGetFeedType: 'internal'
+      publishVstsFeed: '2f2413e3-c8b9-4082-8831-3a625fec4e55/a0367acd-f673-4d8b-953d-0d255e53f1e3'
