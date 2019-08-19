@@ -5,7 +5,7 @@ namespace TicketPunch.Core.Test
     public class MockIdentity : IIdentity
     {   
 
-        public string Name => "TEST-NAME";
+        public string Name { get; set; } = "TEST-NAME";
 
         public bool Verify() => Name == "TEST-NAME";
     }

@@ -55,7 +55,7 @@ namespace TicketPunch.Core.Test
                 ""CreationDate"": ""2019-08-18T14:32:16.7196531-05:00"",
                 ""ExpireDate"":""2020-08-18T14:32:16.7196531-05:00"",
                 ""Identity"":{
-                    ""WeirdThing"":""IDK""
+                    ""Name"":""BAD-MAN""
                 }
             }";
 
