@@ -1,3 +1,6 @@
+# TicketPunch.Core
+[![Build Status](https://dev.azure.com/pagemcarson/pagemcarson/_apis/build/status/TicketPunch.Core?branchName=master)](https://dev.azure.com/pagemcarson/pagemcarson/_build/latest?definitionId=1&branchName=master)
+
 ## License
 
 Licensed under either of
