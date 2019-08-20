@@ -79,5 +79,19 @@ namespace TicketPunch.Core.Test
                 Assert.True(validatedLicense.Identity.Verify());
             }
         }
+
+        [Fact]
+        public void TestLicenseBuilder()
+        {   
+            var license = License<MockIdentity>.Issue()
+                .WithIdentity(new MockIdentity())
+                .WithExpirationDate(DateTime.UtcNow.AddYears(1))
+                .License();
+
+            output.WriteLine(license.ToJSON());
+
+            Assert.True(license.CreationDate < license.ExpireDate);
+            Assert.NotEqual(license.Id, Guid.Empty);
+        }
     }
 }

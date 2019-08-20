@@ -60,12 +60,8 @@ namespace TicketPunch.Core
             return license;
         }
 
-        
-
-        public static License<TIdentity> New()
-        {
-            throw new NotImplementedException();
+        public static ILicenseBuilder<TIdentity> Issue() {
+            return new LicenseBuilder<TIdentity>();
         }
-
     }
 }
