@@ -7,7 +7,7 @@ variables:
   buildConfiguration: 'release'
   MAJOR_VERSION: '0'
   MINOR_VERSION: '1'
-  PATCH_VERSION: $[format('{0:yyyymmdd}', pipeline.startTime)]
+  PATCH_VERSION: '$[format('{0:yyyyMMdd}', pipeline.startTime)]'
   BUILD_VERSION: $[counter(format('{0:yyyyMMdd}', pipeline.startTime), 100)]
   CI_BUILD: 'y'
 
