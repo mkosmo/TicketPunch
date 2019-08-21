@@ -12,6 +12,9 @@ variables:
   CI_BUILD: 'y'
 
 steps:
+  - task: CmdLine@2
+    inputs:
+      script: 'echo "$PATCH_VERSION"'
   - task: DotNetCoreCLI@2
     name: 'Build'
     inputs:
