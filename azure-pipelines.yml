@@ -8,7 +8,7 @@ variables:
   MAJOR_VERSION: '0'
   MINOR_VERSION: '1'
   PATCH_VERSION: '0'
-  BUILD_VERSION: $[counter(format('{0}.{1}.{2}', variables.MAJOR_VERSION, variables.MINOR_VERSION, variables.PATCH_VERSION), 100)]
+  BUILD_VERSION: $[format('{0}.{1}.{2}', variables.MAJOR_VERSION, variables.MINOR_VERSION, variables.PATCH_VERSION)]
   CI_BUILD: 'y'
 
 steps:
