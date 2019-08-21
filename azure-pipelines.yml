@@ -14,7 +14,7 @@ variables:
 steps:
   - task: CmdLine@2
     inputs:
-      script: 'echo "$PATCH_VERSION"'
+      script: 'echo "$BUILD_VERSION"'
   - task: DotNetCoreCLI@2
     name: 'Build'
     inputs:
